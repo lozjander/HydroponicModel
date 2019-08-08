@@ -7,15 +7,56 @@ Created on Thu Jan 31 16:29:28 2019
 import numpy as np
 from scipy.integrate import odeint
 
-# Calculate the photosynthesis rate of a certain layer of the canopy
 def layer_photo(eps, P_gm, DIS_1, DIS_2, DIS_3, WT_1, WT_2, WT_3, LAI, PAR,
                 k_ext):
-    # DIS_i is the distance coefficient of gauss integral (i is the layer number
-    # of the canopy layers)
-    # LAI is leaf area index
-    # PAR is photosynthetical active radiation
-    # k_ext is the extinction coefficient of canopy
-    # P_gm is the maximum photosynthesis rate
+    """Calculates the photosynthesis rate of a certain layer of the canopy.
+
+    Parameters
+    ----------
+    eps :
+      leaf initial light use efficiency [g.CO2.j^−1]
+    P_gm :
+      the maximum photosynthesis rate
+    DIS_i :int
+      the distance coefficient of gauss integral (i is the layer number of the canopy layers)
+    WT_i : float
+      Weight factor for Gaussian integration
+    LAI : float
+      leaf area index - one-sided green leaf area per unit ground surface area
+    PAR :
+      photosynthetically active radiation [J m^-2 h^-1]
+    k_ext:
+      the extinction coefficient of canopy
+
+    Constants
+    ---------
+    eps : float
+     leaf initial light use efficiency = 0.8 [g.CO2.j^−1]
+
+    Variables
+    ---------
+    LGUSS_i : float
+      canopy depth of gauss layer
+    L_i : float
+      the quantity of PAR arriving at the ith layer of the canopy
+    P_gi : float
+      the photosynthesis rate at the ith layer of the canopy
+
+    Returns
+    -------
+    P_g: float
+      photosythesis rate in the plant
+
+    Notes
+    -----
+    # gauss integral - its the integral of a gaussian bell curve  e^(-x^2)
+    # WT = 0.2778, 0.4444, 0.2778 for 1st, 2nd, 3rd canopy layer respectively
+
+    # is this section irrelevant due to using lettuce, there will be some shading?
+
+
+            """
+
     LGUSS_1 = DIS_1 * LAI
     LGUSS_2 = DIS_2 * LAI
     LGUSS_3 = DIS_3 * LAI
@@ -34,26 +75,123 @@ def layer_photo(eps, P_gm, DIS_1, DIS_2, DIS_3, WT_1, WT_2, WT_3, LAI, PAR,
     return P_g
 
 
-# Simulate the dry matter production of tomato plant
 def dry_matter_production(W_p0, LAI0, leaf0, root0, stem0, fruit0, t, t_start,
                           T_average, C_ppm, DIS_1, DIS_2, DIS_3, PAR, TEP,
                           k_ext, WT_1, WT_2, WT_3, C_f, f):
-    # W_p0, LAI0, leaf0, root0, stem0, fruit0 are the intial value for each state variables
-    # W_p is the dry weight of whole plant
-    # LAI is leaf area index
-    # leaf is the dry weight of leaf
-    # root is the dry weight of root
-    # stem is the dry weight of stem
-    # fruit is the dry weight of fruit
-    # t is the time step
-    # t_start is the planting data (t_start_th day of the year)
-    # C_ppm is the CO2 concentration
-    # T_average is the average temperature inside greenhouse
+    """Simulates the dry matter production of tomato plant.
+
+    Parameters
+    ----------
+    W_p0 : float
+      Initial dry weight of the whole tomato plant [g DM]
+    LAI_0 : float
+      Initial leaf area index of the tomato plant [g DM]
+    leaf0 : float
+      Initial dry weight of the tomato plant leaves [g DM]
+    root0 : float
+      Initial dry weight of the tomato plant roots [g DM]
+    stem0 : float
+      Initial dry weight of the tomato plant stem [g DM]
+    fruit0 : float
+      Initial dry weight of the tomato plant fruits [g DM]
+    t : ???
+      timestep
+    t_start: int
+      is the planting data (t_start_th day of the year)
+    T_average : float
+      the average temperature inside greenhouse
+    C_ppm : int
+      CO2 concentration
+    DIS_i :int
+      the distance coefficient of gauss integral (i is the layer number of the canopy layers)
+    PAR : int
+      photosynthetically active radiation
+    TEP : int
+      the cumulative PAR
+    k_ext: float
+      the extinction coefficient of canopy
+    WT_i : float
+      Weight factor for Gaussian integration
+    C_f : float
+      Conversion factor from assimilates to dry matter
+    f : float
+     Regression parameter
+
+    Returns
+    -------
+    results of an integration calculation giving the growth rates of different parts of the tomato plant
+
+
+    Notes
+    -----
+
+
+            """
+
     def diff(y, t_):
-        # define state variables
-        # TEP is the cumulative PAR
-        # C_f is the conversion factor from assimilates to dry matter
-        # f is a regression parameter
+        """Define state variables.
+
+        Parameters
+        ----------
+        y : ???
+          list of state variables
+        t : ???
+          timestep
+
+        Variables
+        ---------
+        C_a : int
+          CO2 concentraion [ppm]
+        ghe : float
+         'Gamma' the CO2 compensation point in absence of dark respiration
+        eps :
+          leaf initial light use efficiency [g.CO2.j^−1]
+        P_gm : float
+          the maximum photosynthesis rate
+        R_m : float
+          maintenance rate - of respiration?
+        dWdt : float
+          Whole Plant growth rate
+        RGR : float
+          Relative Growth Rate
+        PIS : float
+          Partition Index Shoot
+        PIR : float
+          Partition Index Root
+        d_rootdt : float
+          root growth rate
+        PIL : float
+          Partition Index Leaf
+        PIST : float
+          Partition Index Stem
+        PIF : float
+          Partition Index Fruit
+        d_leafdt : float
+          leaf growth rate
+        d_stemdt : float
+          stem growth rate
+        d_fruitdt : float
+          fruit growth rate
+        SLA : float
+          Specific Leaf Area
+
+
+
+        Returns
+        -------
+        Val - a list of values calculated for timepoint t:
+        Whole plant dry weight
+        Leaf Area Index
+        Leaf dry weight
+        Root dry weight
+        Stem dry weight
+        fruit dry weight
+
+        Notes
+        -----
+
+
+                """
         W_p = y[0]  # [g DM]
         LAI = y[1]
         leaf = y[2]  # [g DM]
@@ -125,8 +263,6 @@ def dry_matter_production(W_p0, LAI0, leaf0, root0, stem0, fruit0, t, t_start,
     return rez
 
 
-W_p0 = ???
-LAIO = ???
 T_average = 28.0
 dmp = dry_matter_production(W_p0, LAI0, leaf0, root0, stem0, fruit0, t, t_start,
                             T_average, C_ppm, DIS_1, DIS_2, DIS_3, PAR, TEP,

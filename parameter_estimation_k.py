@@ -6,13 +6,37 @@ Created on Thu Jan 31 17:21:38 2019
 """
 
 def residuals(p, data_K , t,root_dm,total_dm,PAR,DSR):
-    # calculate the difference between the simulated and measured data (percentage of composition[DM/DM])
-    # p is the vector of parameters that need to be estimated
-    # data_K is the literature data of potassium content
-    # root_dm is the dynamic dry weight of root obtained from simulation (vector)
-    # total_dm is the dynamic dry weight of whole tomato plant (vector)
-    # PAR is photosynthesis active radiation
-    # DSR is daily solar radiation
+    """Calculates the difference between the simulated and measured data (percentage of composition[DM/DM]).
+
+    Parameters
+    ----------
+    P : float
+      vector of parameters that need to be estimated
+    data_K : float
+      the literature data of potassium content
+    root_dm : float
+      dynamic dry weight of root obtained from simulation (vector)
+    total_dm : float
+      dynamic dry weight of the whole tomato plant (vector)
+    PAR : float
+      photsynthesis active radation
+    DSR : float
+      Daily Solar Radiation
+
+
+
+    Constants
+    ---------
+
+    Returns
+    -------
+
+    Notes
+    -----
+    # root_dm, total_dm are obtained from simulation of dry matter production model
+
+        """
+
     # root_dm, total_dm are obtained from simulation of dry matter production model
     k_rsa = 0.096 # coefficient which convert root dry matter to root surface area
     # a,b,c,d are parameters that need to be estimated

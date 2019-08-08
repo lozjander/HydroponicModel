@@ -15,6 +15,41 @@ def mg_uptake(t, RSA, PAR, EC,a,b,c,d,DSR):
       hour of the simulation
     RSA : float
       root surface area of tomato plant [m^2]
+    PAR : int
+      photosynthetically active radiation [J m^-2 h^-1]
+    EC : float
+      electrical conductivity of the nutrient solution
+    a : float
+      regression parameter for calulcating U_max and K_m
+    b : float
+      regression parameter for calulcating U_max and K_m
+    c : float
+      regression parameter for calulcating U_max and K_m
+    d : float
+      regression parameter for calulcating U_max and K_m
+    DSR : int
+      daily solar radiation [MJ m^-2]
+
+    Variables
+    ---------
+    U_max : float
+      maximum rate of magnesium uptake [mg m^-2 h]
+    K_m : float
+      michaelis-menten constant [PPFD @ 0.5 J_max]
+    PTU : float
+      photo thermal unit
+    GDD : float
+      Growing Degree Days
+
+    Constants
+    ---------
+    NA : float
+      avogadro's constant [6.022*10**23]
+    h : float
+      planck constant [6.626*10**-34]
+    c : float
+      speed of light in a vacuum [3*10**8]
+
 
     Returns
     -------
@@ -24,17 +59,10 @@ def mg_uptake(t, RSA, PAR, EC,a,b,c,d,DSR):
 
     Notes
     -----
-    # simulate magnesium uptake using Michaelis-Menten active uptake model
-    # t is the hour of the simulation
-    # RSA is the root surface area of tomato plant [m^2]
-    # PAR is photosynthetically active radiation [J m^-2 h^-1]
-    # EC is the electrical conductivity of nutrient solution
-    # U_max is the maximum rate of magnesium uptake [mg m^-2 h]
-    # K_m is the Michaelis-Menten constant (the photosynthetic photon flux density at 1/2 J_max)
-    # DSR is daily solar radiation [MJ m^-2]
-    # a,b,c,d are regression parameters for calculating U_max and K_m
     # assuming the maximum and minimum temperature of greenhouse equals 26 and 18 degrees
     # the growing degree days is simulated using t
+    #  K_m is used twice, its calculated at the beginning for each time point then calculated to convert the unit it
+    is expressed in from PPFD [umol m^-2 s] to [J m^-2 h^-1] Radiant Exposure per hour
 
     """
 
@@ -54,7 +82,7 @@ def mg_uptake(t, RSA, PAR, EC,a,b,c,d,DSR):
     c = 3*10**8 # [m/s]
     h = 6.626*10**-34
     NA = 6.022*10**23
-    # unit conversion
+    # unit conversion --- 3600 seconds in an hour, 1e-6 as PPFD is in micromol?
     K_m = c/wl*h*NA*1*10**-6*3600*K_m
     # calculate uptake based on Michaelis-Menten type model
     uptake = RSA*PAR*U_max/(K_m+PAR)
