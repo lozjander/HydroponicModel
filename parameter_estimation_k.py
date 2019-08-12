@@ -10,23 +10,46 @@ def residuals(p, data_K , t,root_dm,total_dm,PAR,DSR):
 
     Parameters
     ----------
-    P : float
+    P : list
       vector of parameters that need to be estimated
-    data_K : float
+    data_K :
       the literature data of potassium content
-    root_dm : float
+    t : list
+      timestep of the simulation
+    root_dm :
       dynamic dry weight of root obtained from simulation (vector)
-    total_dm : float
+    total_dm :
       dynamic dry weight of the whole tomato plant (vector)
-    PAR : float
+    PAR : list
       photsynthesis active radation
-    DSR : float
+    DSR : list
       Daily Solar Radiation
 
+    Variables
+    ---------
+    RSA : list
+      Root Surface Area
+    tc : array
+      an array of 't[-1]+1' numbers, equally spaced between '0' - 't[-1]'
+    uptake_K :
+
+    cuml_K :
+
+    percentage_K :
+
+    sim_K :
+
+    data_K :
+
+    e_K :
 
 
     Constants
     ---------
+    k_rsa : float
+       coefficient which is used to convert root dry matter to root surface area [0.096]
+    EC : float
+      electrical conductivity [1.5]
 
     Returns
     -------
@@ -34,6 +57,8 @@ def residuals(p, data_K , t,root_dm,total_dm,PAR,DSR):
     Notes
     -----
     # root_dm, total_dm are obtained from simulation of dry matter production model
+    # is p a list? look at line 49-52
+    # spacing around commas in functions
 
         """
 

@@ -61,7 +61,7 @@ def mg_uptake(t, RSA, PAR, EC,a,b,c,d,DSR):
     -----
     # assuming the maximum and minimum temperature of greenhouse equals 26 and 18 degrees
     # the growing degree days is simulated using t
-    #  K_m is used twice, its calculated at the beginning for each time point then calculated to convert the unit it
+    #  K_m is used twice, its calculated at the beginning for each time step then calculated to convert the unit it
     is expressed in from PPFD [umol m^-2 s] to [J m^-2 h^-1] Radiant Exposure per hour
 
     """

@@ -119,7 +119,10 @@ def dry_matter_production(W_p0, LAI0, leaf0, root0, stem0, fruit0, t, t_start,
 
     Returns
     -------
-    results of an integration calculation giving the growth rates of different parts of the tomato plant
+    Given a set of initial values (y0) calculated by diff , it returns an array containing the value of y for each desired time in t,
+    with the initial value `y0` in the first row.
+
+    Array of values for Leaf Area Index, Whole plant dry weight, & Leaf, stem, fruit, root dry weights.
 
 
     Notes
@@ -129,7 +132,7 @@ def dry_matter_production(W_p0, LAI0, leaf0, root0, stem0, fruit0, t, t_start,
             """
 
     def diff(y, t_):
-        """Define state variables.
+        """Define state variables (y) at a timestep (t).
 
         Parameters
         ----------
@@ -179,7 +182,7 @@ def dry_matter_production(W_p0, LAI0, leaf0, root0, stem0, fruit0, t, t_start,
 
         Returns
         -------
-        Val - a list of values calculated for timepoint t:
+        Val - a list of values (rate of change - ODE) calculated for timestep (t):
         Whole plant dry weight
         Leaf Area Index
         Leaf dry weight
@@ -193,7 +196,7 @@ def dry_matter_production(W_p0, LAI0, leaf0, root0, stem0, fruit0, t, t_start,
 
                 """
         W_p = y[0]  # [g DM]
-        LAI = y[1]
+        LAI = y[1]  #  LAI has no unit
         leaf = y[2]  # [g DM]
         root = y[3]  # [g DM]
         stem = y[4]  # [g DM]
@@ -262,6 +265,7 @@ def dry_matter_production(W_p0, LAI0, leaf0, root0, stem0, fruit0, t, t_start,
     rez = odeint(diff, y0, t, full_output=0)
     return rez
 
+#  Additional Code Added by Jens below
 
 T_average = 28.0
 dmp = dry_matter_production(W_p0, LAI0, leaf0, root0, stem0, fruit0, t, t_start,
