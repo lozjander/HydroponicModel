@@ -63,6 +63,7 @@ def mg_uptake(t, RSA, PAR, EC,a,b,c,d,DSR):
     # the growing degree days is simulated using t
     #  K_m is used twice, its calculated at the beginning for each time step then calculated to convert the unit it
     is expressed in from PPFD [umol m^-2 s] to [J m^-2 h^-1] Radiant Exposure per hour
+    # are all the parameters just lists???????
 
     """
 

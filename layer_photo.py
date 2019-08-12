@@ -51,12 +51,10 @@ def layer_photo(eps, P_gm, DIS_1, DIS_2, DIS_3, WT_1, WT_2, WT_3, LAI, PAR,
     -----
     # gauss integral - its the integral of a gaussian bell curve  e^(-x^2)
     # WT = 0.2778, 0.4444, 0.2778 for 1st, 2nd, 3rd canopy layer respectively
-
-    # is this section irrelevant due to using lettuce, there will be some shading?
-
-
+    # are all the parameters just lists???????
             """
 
+    # is this section irrelevant due to using lettuce, there will be some shading??? - loz
     LGUSS_1 = DIS_1 * LAI
     LGUSS_2 = DIS_2 * LAI
     LGUSS_3 = DIS_3 * LAI
@@ -127,8 +125,7 @@ def dry_matter_production(W_p0, LAI0, leaf0, root0, stem0, fruit0, t, t_start,
 
     Notes
     -----
-
-
+    # are all the parameters just lists???????
             """
 
     def diff(y, t_):
@@ -192,7 +189,7 @@ def dry_matter_production(W_p0, LAI0, leaf0, root0, stem0, fruit0, t, t_start,
 
         Notes
         -----
-
+        # are all the parameters just lists???????
 
                 """
         W_p = y[0]  # [g DM]

@@ -59,6 +59,7 @@ def residuals(p, data_K , t,root_dm,total_dm,PAR,DSR):
     # root_dm, total_dm are obtained from simulation of dry matter production model
     # is p a list? look at line 49-52
     # spacing around commas in functions
+    # are all the parameters just lists???????
 
         """
 
