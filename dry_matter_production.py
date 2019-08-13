@@ -119,6 +119,7 @@ def dry_matter_production(W_p0, LAI0, leaf0, root0, stem0, fruit0, t, t_start,
         Notes
         -----
         # are all the parameters just lists???????
+        # check t_maybe and find out which it is t or t_start
 
                 """
         W_p = y[0]  # [g DM]
