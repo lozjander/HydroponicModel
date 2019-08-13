@@ -5,8 +5,9 @@ Created on Thu Jan 31 17:16:56 2019
 @author: ljander
 """
 
+
 # simulate magnesium uptake by tomato plant
-def mg_uptake(t, RSA, PAR, EC,a,b,c,d,DSR):
+def mg_uptake(t, RSA, PAR, EC, a, b, c, d, DSR):
     """Calculates Mg uptake.
 
     Parameters
@@ -67,24 +68,23 @@ def mg_uptake(t, RSA, PAR, EC,a,b,c,d,DSR):
 
     """
 
-
     T_max = 26
     T_min = 18
     T_base = 8
-    GDD = ((T_max+T_min)/2-T_base)*t/24
+    GDD = ((T_max + T_min) / 2 - T_base) * t / 24
 
     # simulate photo thermal unit
-    PTU = GDD*DSR
+    PTU = GDD * DSR
     # compute Michaelis-Menten parameters
-    U_max = a*EC*PTU+b
-    K_m = c*EC*PTU+d
+    U_max = a * EC * PTU + b
+    K_m = c * EC * PTU + d
     # converting [umol m^-2 s] to [J m^-2 h^-1] assuming an average wavelength of 550 nm
-    wl = 550*1*10**-9 # [m]
-    c = 3*10**8 # [m/s]
-    h = 6.626*10**-34
-    NA = 6.022*10**23
+    wl = 550 * 1 * 10 ** -9  # [m]
+    c = 3 * 10 ** 8  # [m/s]
+    h = 6.626 * 10 ** -34
+    NA = 6.022 * 10 ** 23
     # unit conversion --- 3600 seconds in an hour, 1e-6 as PPFD is in micromol?
-    K_m = c/wl*h*NA*1*10**-6*3600*K_m
+    K_m = c / wl * h * NA * 1 * 10 ** -6 * 3600 * K_m
     # calculate uptake based on Michaelis-Menten type model
-    uptake = RSA*PAR*U_max/(K_m+PAR)
+    uptake = RSA * PAR * U_max / (K_m + PAR)
     return uptake

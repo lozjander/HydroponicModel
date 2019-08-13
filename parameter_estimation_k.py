@@ -5,7 +5,7 @@ Created on Thu Jan 31 17:21:38 2019
 @author: ljander
 """
 
-def residuals(p, data_K , t,root_dm,total_dm,PAR,DSR):
+def residuals(p, data_K, t, root_dm, total_dm, PAR, DSR):
     """Calculates the difference between the simulated and measured data (percentage of composition[DM/DM]).
 
     Parameters
@@ -58,7 +58,7 @@ def residuals(p, data_K , t,root_dm,total_dm,PAR,DSR):
     Notes
     -----
     # root_dm, total_dm are obtained from simulation of dry matter production model
-    # is p a list? look at line 49-52
+    # is p a list?
     # spacing around commas in functions
     # are all the parameters just lists???????
 
