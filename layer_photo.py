@@ -7,7 +7,7 @@ Created on Thu Jan 31 16:29:28 2019
 import numpy as np
 from scipy.integrate import odeint
 
-def layer_photo(eps, P_gm, DIS_1, DIS_2, DIS_3, WT_1, WT_2, WT_3, LAI, PAR,
+def layer_photosyn(eps, P_gm, DIS_1, DIS_2, DIS_3, WT_1, WT_2, WT_3, LAI, PAR,
                 k_ext):
     """Calculates the photosynthesis rate of a certain layer of the canopy.
 
@@ -33,6 +33,7 @@ def layer_photo(eps, P_gm, DIS_1, DIS_2, DIS_3, WT_1, WT_2, WT_3, LAI, PAR,
     eps : float
      leaf initial light use efficiency = 0.8 [g.CO2.j^−1]
 
+
     Variables
     ---------
     LGUSS_i : float
@@ -51,6 +52,8 @@ def layer_photo(eps, P_gm, DIS_1, DIS_2, DIS_3, WT_1, WT_2, WT_3, LAI, PAR,
     -----
     # gauss integral - its the integral of a gaussian bell curve  e^(-x^2)
     # WT = 0.2778, 0.4444, 0.2778 for 1st, 2nd, 3rd canopy layer respectively
+    # DIS = 0.1127, 0.5, 0.8873 for 1st, 2nd, 3rd canopy layer respectively
+    # k_ext = 0.8
     # are all the parameters just lists???????
             """
 
@@ -117,8 +120,8 @@ def dry_matter_production(W_p0, LAI0, leaf0, root0, stem0, fruit0, t, t_start,
 
     Returns
     -------
-    Given a set of initial values (y0) calculated by diff , it returns an array containing the value of y for each desired time in t,
-    with the initial value `y0` in the first row.
+    Given a set of initial values (y0) calculated by diff , it returns an array containing the value of y for each
+    desired time in t, with the initial value `y0` in the first row.
 
     Array of values for Leaf Area Index, Whole plant dry weight, & Leaf, stem, fruit, root dry weights.
 
