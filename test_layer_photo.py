@@ -1,4 +1,6 @@
 from layer_photo import layer_photosyn
+from layer_photo import dry_matter_production
+from layer_photo import diff
 
 def test_layer_photo():
     """First test for layer_photo"""

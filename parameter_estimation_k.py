@@ -53,6 +53,7 @@ def residuals(p, data_K , t,root_dm,total_dm,PAR,DSR):
 
     Returns
     -------
+    The difference between the simulated and measured values of uptake of potassium
 
     Notes
     -----
