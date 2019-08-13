@@ -5,6 +5,8 @@ Created on Thu Jan 31 17:21:38 2019
 @author: ljander
 """
 
+import numpy as np
+
 def residuals(p, data_K, t, root_dm, total_dm, PAR, DSR):
     """Calculates the difference between the simulated and measured data (percentage of composition[DM/DM]).
 
@@ -82,8 +84,8 @@ def residuals(p, data_K, t, root_dm, total_dm, PAR, DSR):
     EC = 1.5 # electrical conductivity
     # calculate uptake of potassium
     uptake_K = np.zeros_like(tc)
-    for j,k in enumerate(DSR):
-     uptake_K[j] = K_uptake(j,RSA[j],PAR[j],EC,a,b,c,d,DSR[j])
+    for j, k in enumerate(DSR):
+        uptake_K[j] = K_uptake(j,RSA[j],PAR[j],EC,a,b,c,d,DSR[j])
     # calculate cumulative uptake of potassium
     cuml_K = np.cumsum(uptake_K)
     # calculate potassium content
@@ -102,48 +104,48 @@ def residuals(p, data_K, t, root_dm, total_dm, PAR, DSR):
     return self
 
 if __name__ == '__main__':
- # load the ratio between tomato fruit and whole plant (DM) for computing the mineral content of whole
- # plant based on mineral content of leaves and fruits
- r_f = np.load('r_f.npy')
-# construct dynamic content data based on literature
- data_K = (np.array([5.55,6.75,6.85,6.75,6.75,6.9,4.91,4.69,4.53,3.68,3.96,3.91,4.02,3.72,3.87,
- 5.11*(1-r_f[24*56])+3.76*r_f[24*56],5.51*(1-r_f[24*56])+3.76*r_f[24*56],
- 5.53*(1-r_f[24*56])+3.76*r_f[24*56],5.25*(1-r_f[24*56])+3.76*r_f[24*56],
- 4.6*(1-r_f[24*56])+3.76*r_f[24*56],4.76*(1-r_f[24*56])+3.76*r_f[24*56],
- 4.78*(1-r_f[24*84])+3.76*r_f[24*84],4.78*(1-r_f[24*84])+3.76*r_f[24*84],
- 5*(1-r_f[24*84])+3.76*r_f[24*84],4.75*(1-r_f[24*84])+3.76*r_f[24*84],
- 5.51*(1-r_f[24*84])+3.76*r_f[24*84],4.2*(1-r_f[24*84])+3.76*r_f[24*84],
- 3.72*(1-r_f[24*112])+3.76*r_f[24*112],4.07*(1-r_f[24*112])+3.76*r_f[24*112],
- 4.07*(1-r_f[2879])+3.76*r_f[2879]]))/5.5
+    # load the ratio between tomato fruit and whole plant (DM) for computing the mineral content of whole
+    # plant based on mineral content of leaves and fruits
+     r_f = np.load('r_f.npy')
+    # construct dynamic content data based on literature
+     data_K = (np.array([5.55,6.75,6.85,6.75,6.75,6.9,4.91,4.69,4.53,3.68,3.96,3.91,4.02,3.72,3.87,
+     5.11*(1-r_f[24*56])+3.76*r_f[24*56],5.51*(1-r_f[24*56])+3.76*r_f[24*56],
+     5.53*(1-r_f[24*56])+3.76*r_f[24*56],5.25*(1-r_f[24*56])+3.76*r_f[24*56],
+     4.6*(1-r_f[24*56])+3.76*r_f[24*56],4.76*(1-r_f[24*56])+3.76*r_f[24*56],
+     4.78*(1-r_f[24*84])+3.76*r_f[24*84],4.78*(1-r_f[24*84])+3.76*r_f[24*84],
+     5*(1-r_f[24*84])+3.76*r_f[24*84],4.75*(1-r_f[24*84])+3.76*r_f[24*84],
+     5.51*(1-r_f[24*84])+3.76*r_f[24*84],4.2*(1-r_f[24*84])+3.76*r_f[24*84],
+     3.72*(1-r_f[24*112])+3.76*r_f[24*112],4.07*(1-r_f[24*112])+3.76*r_f[24*112],
+     4.07*(1-r_f[2879])+3.76*r_f[2879]]))/5.5
 
-# time vector of the data point
-t = np.array([5*24,10*24,14*24,18*24,20*24,22*24,21*24,21*24,21*24,
- 28*24,28*24,28*24,28*24,28*24,28*24,
- 56*24,56*24,56*24,56*24,56*24,56*24,
- 84*24,84*24,84*24,84*24,84*24,84*24,
- 112*24,112*24,2879])
- # initial guess
- p0 = [0.0007,241.491,0.006,2198.3]
- # -- least_squares --
- print('--- least_squares function results --- \n')
- # The known parameters can be passed as args
- lsresult = least_squares(residuals, p0, args=( data_K ,t,root_dm,
- total_dm,PAR,DSR),
- method='trf', bounds=([0,0,0,0],[np.inf,np.inf,np.inf,np.inf]))
- print('Estimated parameters \n', lsresult['x'],'\n')
- # The function returns jac, which seems to be X matrix
- lsX = lsresult['jac']
- lscovx = inv(np.dot(lsX.T,lsX))
- print('Calculated inv(X.T * X) with X=returned jac = \n',lscovx,'\n')
- # The residuals are returned as fun in lsresult
- lsres = lsresult['fun']
- # The calculated variance of residuals is
- lsvarres = 1/(lsX.shape[0]-lsX.shape[1]) * np.dot(lsres.T,lsres)
- # The covariance matrix of parameters is
- lscovp = lsvarres*lscovx
- print('Covariance matrix of parameters \n',lscovp,'\n')
- # The standard deviations of the parameters are:
- lssd = np.sqrt(np.diag(lscovp))
- print('Standard deviations of parameters \n',lssd,'\n')
- print('Objective function value \n',lsresult['cost'])
- print('-'*25,'\n')
+    # time vector of the data point
+    t = np.array([5*24,10*24,14*24,18*24,20*24,22*24,21*24,21*24,21*24,
+     28*24,28*24,28*24,28*24,28*24,28*24,
+     56*24,56*24,56*24,56*24,56*24,56*24,
+     84*24,84*24,84*24,84*24,84*24,84*24,
+     112*24,112*24,2879])
+     # initial guess
+     p0 = [0.0007,241.491,0.006,2198.3]
+     # -- least_squares --
+     print('--- least_squares function results --- \n')
+     # The known parameters can be passed as args
+     lsresult = least_squares(residuals, p0, args=( data_K ,t,root_dm,
+     total_dm,PAR,DSR),
+     method='trf', bounds=([0,0,0,0],[np.inf,np.inf,np.inf,np.inf]))
+     print('Estimated parameters \n', lsresult['x'],'\n')
+     # The function returns jac, which seems to be X matrix
+     lsX = lsresult['jac']
+     lscovx = inv(np.dot(lsX.T,lsX))
+     print('Calculated inv(X.T * X) with X=returned jac = \n',lscovx,'\n')
+     # The residuals are returned as fun in lsresult
+     lsres = lsresult['fun']
+     # The calculated variance of residuals is
+     lsvarres = 1/(lsX.shape[0]-lsX.shape[1]) * np.dot(lsres.T,lsres)
+     # The covariance matrix of parameters is
+     lscovp = lsvarres*lscovx
+     print('Covariance matrix of parameters \n',lscovp,'\n')
+     # The standard deviations of the parameters are:
+     lssd = np.sqrt(np.diag(lscovp))
+     print('Standard deviations of parameters \n',lssd,'\n')
+     print('Objective function value \n',lsresult['cost'])
+     print('-'*25,'\n')
