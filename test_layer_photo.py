@@ -18,6 +18,7 @@ def test_layer_photo():
                    k_ext)
 
     assert photo == 300
+    print(P_g)
 
 if __name__ == '__main__':
     import sys
