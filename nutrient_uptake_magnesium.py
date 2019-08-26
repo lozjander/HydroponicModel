@@ -65,6 +65,9 @@ def mg_uptake(t, RSA, PAR, EC, a, b, c, d, DSR):
     #  K_m is used twice, its calculated at the beginning for each time step then calculated to convert the unit it
     is expressed in from PPFD [umol m^-2 s] to [J m^-2 h^-1] Radiant Exposure per hour
     # are all the parameters just lists???????
+    # T_base is 8C - The minimum growth temperature for tomato plants
+    # T_max & min - The maximum and minimum day temperature
+    # DSR is the solar radiatioin
 
     """
 

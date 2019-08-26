@@ -108,6 +108,12 @@ if __name__ == '__main__':
     # plant based on mineral content of leaves and fruits
      r_f = np.load('r_f.npy')
     # construct dynamic content data based on literature
+    # appendix 3, table 7
+    # day 21 & 22 data in the wrong order
+    # terms 1 & 3 should be 6.25
+    # after day 56 data includes leaf weight and growing fruit weight - fruit weight 3.76 is average harvest weight
+    # additional term for day 199 (hour 2879)
+    #not sure what the divide by 5.5 is for at the end
      data_K = (np.array([5.55,6.75,6.85,6.75,6.75,6.9,4.91,4.69,4.53,3.68,3.96,3.91,4.02,3.72,3.87,
      5.11*(1-r_f[24*56])+3.76*r_f[24*56],5.51*(1-r_f[24*56])+3.76*r_f[24*56],
      5.53*(1-r_f[24*56])+3.76*r_f[24*56],5.25*(1-r_f[24*56])+3.76*r_f[24*56],
@@ -118,7 +124,7 @@ if __name__ == '__main__':
      3.72*(1-r_f[24*112])+3.76*r_f[24*112],4.07*(1-r_f[24*112])+3.76*r_f[24*112],
      4.07*(1-r_f[2879])+3.76*r_f[2879]]))/5.5
 
-    # time vector of the data point
+    # time vector of the data point - (day 21 & 22 data in the wrong order)
     t = np.array([5*24,10*24,14*24,18*24,20*24,22*24,21*24,21*24,21*24,
      28*24,28*24,28*24,28*24,28*24,28*24,
      56*24,56*24,56*24,56*24,56*24,56*24,
