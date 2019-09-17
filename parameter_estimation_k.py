@@ -104,6 +104,7 @@ def residuals(p, data_K, t, root_dm, total_dm, PAR, DSR):
     return self
 
 if __name__ == '__main__':
+    from scipy.optimize import least_squares
     # load the ratio between tomato fruit and whole plant (DM) for computing the mineral content of whole
     # plant based on mineral content of leaves and fruits
      r_f = np.load('r_f.npy')
